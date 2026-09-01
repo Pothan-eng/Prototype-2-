@@ -5,70 +5,57 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useAuth } from '@/context/AuthContext';
 import {
-  BookOpen,
   FileText,
-  Building2,
+  BookOpen,
   Users,
-  PlusCircle,
-  ArrowUpRight,
-  Sparkles,
-  Award,
+  Building2,
   ChevronRight,
-  Send,
+  Plus,
 } from 'lucide-react';
 
 export default function AcademicianDashboardPage() {
   const { user } = useAuth();
 
   const stats = [
-    { label: 'Funded Research Grants', value: '3', change: '$640k active funding', icon: FileText, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/40' },
-    { label: 'Industry Co-Publications', value: '11', change: '2 in peer review', icon: BookOpen, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/40' },
-    { label: 'Patent Disclosures', value: '4', change: '2 granted commercial', icon: Award, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/40' },
-    { label: 'Supervised Mentees', value: '9', change: '3 student innovators', icon: Users, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
+    { label: 'Funded Research Grants', value: '3', icon: FileText },
+    { label: 'Industry Publications', value: '11', icon: BookOpen },
+    { label: 'Student Mentees', value: '9', icon: Users },
   ];
 
-  const researchProposals = [
+  const proposals = [
     {
       id: 'prop-01',
-      title: 'Fault-Tolerant Quantum Decoherence Suppression for Low-Power Edge Devices',
-      sponsor: 'NovaTech Industries & National Science Foundation',
-      fundingAmount: '$320,000',
-      duration: '24 Months',
-      status: 'Active Milestone 2',
-      team: '4 Student Fellows, 2 Postdocs',
+      title: 'Quantum Decoherence Suppression for Low-Power Edge Devices',
+      sponsor: 'NovaTech Industries',
+      funding: '$320,000',
+      status: 'Active',
     },
     {
       id: 'prop-02',
-      title: 'Decentralized Microgrid Dynamic Load Balancing using Graph Neural Networks',
+      title: 'Microgrid Dynamic Load Balancing using Graph Neural Networks',
       sponsor: 'EcoEnergy Dynamics',
-      fundingAmount: '$190,000',
-      duration: '18 Months',
+      funding: '$190,000',
       status: 'Under Review',
-      team: '3 Student Fellows',
     },
     {
       id: 'prop-03',
-      title: 'Privacy-Preserving Federated Learning for Multi-Hospital Medical Diagnostics',
+      title: 'Privacy-Preserving Federated Learning for Medical Diagnostics',
       sponsor: 'MedVance Solutions',
-      fundingAmount: '$130,000',
-      duration: '12 Months',
-      status: 'Funded & Starting',
-      team: '2 Graduate Researchers',
+      funding: '$130,000',
+      status: 'Approved',
     },
   ];
 
-  const consultationRequests = [
+  const consultations = [
     {
       company: 'NovaTech Industries',
-      topic: 'Edge Transformer Architecture Optimization Consultation',
-      urgency: 'Requested this week',
-      contact: 'Sarah Chen (VP R&D)',
+      topic: 'Edge Transformer Architecture Optimization',
+      requestedBy: 'Sarah Chen (VP R&D)',
     },
     {
       company: 'Global Robotics Corp',
       topic: 'Autonomous Drone Flight Dynamics Safety Assessment',
-      urgency: 'Next Month',
-      contact: 'Dr. Kevin Zhao',
+      requestedBy: 'Dr. Kevin Zhao',
     },
   ];
 
@@ -76,156 +63,95 @@ export default function AcademicianDashboardPage() {
     <ProtectedRoute allowedRoles={['academician']}>
       <DashboardLayout
         activeRole="academician"
-        pageTitle="Faculty Research & Industrial Consultation"
-        pageSubtitle={`Welcome, ${user?.name || 'Professor'}. Manage lab grant proposals, industry consultations, and student researchers.`}
+        pageTitle="Academician & Research Hub"
+        pageSubtitle={`Welcome back, ${user?.name || 'Professor'}`}
       >
-        {/* Top Summary Banner */}
-        <div className="mb-6 p-6 rounded-2xl bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 text-white shadow-lg relative overflow-hidden">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-2">
-                <BookOpen className="w-3.5 h-3.5" />
-                Principal Investigator Workspace
-              </span>
-              <h2 className="text-2xl font-bold">Commercialize research breakthroughs with industry leaders</h2>
-              <p className="text-slate-300 text-sm mt-1 max-w-2xl">
-                Submit sponsored research proposals, license laboratory patents, and mentor the next generation of student innovators.
-              </p>
-            </div>
-            <div className="flex gap-2.5 shrink-0">
-              <button className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold transition shadow-sm flex items-center gap-1.5">
-                <PlusCircle className="w-4 h-4" />
-                New Grant Proposal
-              </button>
-              <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold backdrop-blur-xs transition">
-                Patent Disclosures
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {stats.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.label}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs hover:shadow-md transition"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{item.label}</span>
-                  <div className={`p-2 rounded-xl ${item.color}`}>
-                    <Icon className="w-4 h-4" />
+        <div className="space-y-6">
+          {/* Top Metrics */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {stats.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.label}
+                  className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 shadow-xs flex items-center justify-between"
+                >
+                  <div>
+                    <div className="text-xs font-medium text-slate-500">{item.label}</div>
+                    <div className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{item.value}</div>
+                  </div>
+                  <div className="w-10 h-10 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center">
+                    <Icon className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{item.value}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  <span>{item.change}</span>
+              );
+            })}
+          </div>
+
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Active Research Grants & Proposals */}
+            <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 dark:text-white">Research Grants & Proposals</h2>
+                  <p className="text-xs text-slate-500">Sponsored lab initiatives with industry partners</p>
                 </div>
+                <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition flex items-center gap-1">
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>New Proposal</span>
+                </button>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Two-Column Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Column: Active Research Proposals */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Active Research Grants & Proposals</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Co-funded R&D projects bridging academia and enterprise labs</p>
-              </div>
-              <button className="text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline inline-flex items-center gap-1">
-                View All Proposals <ArrowUpRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {researchProposals.map((p) => (
-                <div
-                  key={p.id}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-purple-300 dark:hover:border-purple-700 transition shadow-xs group"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
-                          {p.status}
-                        </span>
-                        <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                          {p.fundingAmount}
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-purple-600 transition">
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                {proposals.map((p) => (
+                  <div key={p.id} className="py-3.5 first:pt-0 last:pb-0 flex items-center justify-between gap-4 group">
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 transition">
                         {p.title}
-                      </h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Sponsor: {p.sponsor} • Duration: {p.duration}
-                      </p>
+                      </div>
+                      <div className="flex items-center gap-3 text-[11px] text-slate-500">
+                        <span>Sponsor: {p.sponsor}</span>
+                        <span>•</span>
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">{p.funding}</span>
+                        <span>•</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-medium">{p.status}</span>
+                      </div>
                     </div>
-                    <button className="shrink-0 p-2 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:bg-purple-600 group-hover:text-white transition">
+                    <button className="shrink-0 p-1.5 rounded-lg text-slate-400 group-hover:text-indigo-600 group-hover:bg-slate-50 dark:group-hover:bg-slate-800 transition">
                       <ChevronRight className="w-4 h-4" />
                     </button>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                    <span>Research Team: <strong className="text-slate-700 dark:text-slate-200">{p.team}</strong></span>
-                    <button className="text-purple-600 dark:text-purple-400 font-semibold hover:underline">
-                      Milestone Reports →
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column: Industry Consultation Requests */}
-          <div className="space-y-6">
-            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Consultation Requests</h3>
-                <span className="text-[11px] font-semibold text-purple-600 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full">
-                  2 Pending
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {consultationRequests.map((req, idx) => (
-                  <div key={idx} className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 space-y-2">
-                    <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                      <span className="flex items-center gap-1.5">
-                        <Building2 className="w-3.5 h-3.5 text-slate-400" />
-                        {req.company}
-                      </span>
-                      <span className="text-[10px] text-amber-600 bg-amber-50 dark:bg-amber-950/60 px-1.5 py-0.5 rounded font-medium">
-                        {req.urgency}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                      {req.topic}
-                    </p>
-                    <div className="pt-1 flex items-center justify-between text-[11px]">
-                      <span className="text-slate-400">{req.contact}</span>
-                      <button className="text-purple-600 dark:text-purple-400 font-semibold hover:underline flex items-center gap-1">
-                        <Send className="w-3 h-3" /> Respond
-                      </button>
-                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Quick Actions / Tips */}
-            <div className="p-5 rounded-2xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40">
-              <h4 className="text-xs font-bold text-purple-800 dark:text-purple-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-purple-600" />
-                IP & Technology Transfer
-              </h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Publish lab invention disclosures directly to partner industry tech scouts for commercial licensing and joint patent filings.
-              </p>
+            {/* Consultation Inquiries */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4">
+              <div>
+                <h2 className="text-sm font-bold text-slate-900 dark:text-white">Consultation Inquiries</h2>
+                <p className="text-xs text-slate-500">Industry advisory requests</p>
+              </div>
+
+              <div className="space-y-3">
+                {consultations.map((c, idx) => (
+                  <div key={idx} className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 space-y-1">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 dark:text-white">
+                      <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{c.company}</span>
+                    </div>
+                    <div className="text-[11px] text-slate-600 dark:text-slate-300">
+                      {c.topic}
+                    </div>
+                    <div className="pt-1 flex items-center justify-between text-[11px]">
+                      <span className="text-slate-400">{c.requestedBy}</span>
+                      <button className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+                        Respond →
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
