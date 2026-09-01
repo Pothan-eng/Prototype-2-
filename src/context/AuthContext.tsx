@@ -89,6 +89,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  const setTargetRole = useCallback((targetRole: string) => {
+    if (typeof window !== 'undefined' && user) {
+      try {
+        const updatedUser: UserProfile = { ...user, targetRole };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser));
+        emitChange();
+      } catch (err) {
+        console.error('Failed to update target role:', err);
+      }
+    }
+  }, [user]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -98,6 +110,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         logout,
         switchRole,
+        setTargetRole,
         demoUsers: DEMO_USERS,
       }}
     >

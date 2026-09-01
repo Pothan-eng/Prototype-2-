@@ -11,6 +11,7 @@ export interface UserProfile {
   title: string;
   initials: string;
   roleLabel: string;
+  targetRole?: string;
   themeColor: {
     primary: string;
     bg: string;
@@ -28,8 +29,17 @@ export interface AuthContextType {
   login: (role: UserRole, email?: string, password?: string) => Promise<boolean>;
   logout: () => void;
   switchRole: (role: UserRole) => void;
+  setTargetRole: (targetRole: string) => void;
   demoUsers: Record<UserRole, UserProfile>;
 }
+
+export const TARGET_ROLES = [
+  'AI & Edge Computing Researcher',
+  'Robotics & Autonomous Systems Lead',
+  'Full-Stack Cloud Architect',
+  'CleanTech Systems Engineer',
+  'Biomedical AI Specialist',
+];
 
 export const DEMO_USERS: Record<UserRole, UserProfile> = {
   student: {
@@ -42,6 +52,7 @@ export const DEMO_USERS: Record<UserRole, UserProfile> = {
     title: 'Final Year Undergrad Innovator',
     initials: 'AR',
     roleLabel: 'Student Innovator',
+    targetRole: 'AI & Edge Computing Researcher',
     themeColor: {
       primary: 'emerald-600',
       bg: 'bg-emerald-50 dark:bg-emerald-950/40',

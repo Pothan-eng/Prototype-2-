@@ -13,6 +13,7 @@ import {
   FolderGit2,
   FileText,
   Users,
+  CheckCircle2,
   Search,
   LogOut,
   ChevronDown,
@@ -26,6 +27,7 @@ interface DashboardLayoutProps {
   activeRole: UserRole;
   pageTitle: string;
   pageSubtitle?: string;
+  headerAction?: React.ReactNode;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
@@ -33,6 +35,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   activeRole,
   pageTitle,
   pageSubtitle,
+  headerAction,
 }) => {
   const { user, logout, switchRole } = useAuth();
   const pathname = usePathname();
@@ -44,26 +47,26 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const roleNavItems: Record<UserRole, Array<{ label: string; href: string; icon: React.ElementType }>> = {
     student: [
       { label: 'Overview', href: '/dashboard/student', icon: LayoutDashboard },
+      { label: 'Skill Assessments', href: '/dashboard/student/assessments', icon: CheckCircle2 },
       { label: 'Industry Challenges', href: '/dashboard/student#challenges', icon: FolderGit2 },
-      { label: 'Faculty Research Labs', href: '/dashboard/student#faculty', icon: BookOpen },
-      { label: 'Capstone Projects', href: '/dashboard/student#projects', icon: FileText },
+      { label: 'Faculty Research', href: '/dashboard/student#faculty', icon: BookOpen },
     ],
     company: [
       { label: 'Overview', href: '/dashboard/company', icon: LayoutDashboard },
       { label: 'Problem Statements', href: '/dashboard/company#challenges', icon: FolderGit2 },
-      { label: 'University Research', href: '/dashboard/company#research', icon: BookOpen },
-      { label: 'Student Innovators', href: '/dashboard/company#talent', icon: Users },
+      { label: 'University Labs', href: '/dashboard/company#research', icon: BookOpen },
+      { label: 'Student Talent', href: '/dashboard/company#talent', icon: Users },
     ],
     college: [
       { label: 'Overview', href: '/dashboard/college', icon: LayoutDashboard },
       { label: 'Industry MoUs', href: '/dashboard/college#mous', icon: Landmark },
-      { label: 'Department Overview', href: '/dashboard/college#departments', icon: FileText },
+      { label: 'Department Analytics', href: '/dashboard/college#departments', icon: FileText },
       { label: 'Faculty Directory', href: '/dashboard/college#faculty', icon: Users },
     ],
     academician: [
       { label: 'Overview', href: '/dashboard/academician', icon: LayoutDashboard },
       { label: 'Research Proposals', href: '/dashboard/academician#proposals', icon: FileText },
-      { label: 'Consultation Inquiries', href: '/dashboard/academician#consultation', icon: Building2 },
+      { label: 'Consultations', href: '/dashboard/academician#consultation', icon: Building2 },
       { label: 'Student Mentees', href: '/dashboard/academician#mentees', icon: Users },
     ],
   };
@@ -147,7 +150,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           </button>
         </div>
 
-        {/* User Role Card */}
+        {/* User Profile Card */}
         <div className="px-4 py-3 mx-3 my-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-bold text-xs shrink-0">
             {user?.initials || 'U'}
@@ -263,13 +266,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
           {/* Right Header Actions */}
           <div className="flex items-center gap-3">
+            {headerAction}
+
             {/* Search Input Mock */}
             <div className="relative">
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search..."
-                className="pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-lg w-52 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition"
+                className="pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-lg w-48 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition"
               />
             </div>
 
